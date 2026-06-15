@@ -1,0 +1,24 @@
+name: Deploy to App Platform
+
+on:
+  push:
+    branches: [app-platform-deploy, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to App Platform
+        uses: digitalocean/app_action/deploy@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          app_name: agentdeploy-prototype
+          print_build_logs: true
+          print_deploy_logs: true
