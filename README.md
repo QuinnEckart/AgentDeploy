@@ -2,6 +2,10 @@
 
 Interactive prototype for **AgentDeploy**, DigitalOcean's repo-to-production infrastructure experience for AI-native builders.
 
+## Live demo
+
+**App Platform:** https://agentdeploy-prototype-bgdpl.ondigitalocean.app
+
 ## User Flow
 
 1. **Connect** — Select a GitHub repository via connect modal
@@ -19,6 +23,23 @@ npm run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173)
+
+## Deploy to App Platform (no local Docker)
+
+Deployments run via **GitHub Actions** on push to `app-platform-deploy` or `main`:
+
+1. GitHub Actions builds the container image on a remote runner
+2. Image is pushed to DigitalOcean Container Registry
+3. `digitalocean/app_action` deploys to App Platform by image digest
+
+Required GitHub secret: `DIGITALOCEAN_ACCESS_TOKEN`
+
+```bash
+# Manual deploy trigger
+gh workflow run deploy-app-platform.yml --ref app-platform-deploy
+```
+
+To switch to App Platform buildpacks (`npm run build` on DO infrastructure, no container at all), grant the DigitalOcean GitHub App access to this repository at [GitHub Settings → Applications](https://github.com/settings/installations), then change `.do/app.yaml` to the static site spec.
 
 ## Build
 
